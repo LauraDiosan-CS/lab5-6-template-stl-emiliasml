@@ -1,4 +1,3 @@
-
 #pragma once
 #include<iostream>
 #include<list>
@@ -9,7 +8,7 @@ using namespace std;
 
 class Repository
 {
-private:
+protected:
 	list <Car> repo;
 public:
 	Repository();
