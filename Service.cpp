@@ -1,17 +1,17 @@
 #include "Service.h"
 
 Service::Service() {
-	Repository repo;
+	RepoFile repo;
 }
 
-Service::Service(const Repository& r) {
+Service::Service(const RepoFile& r) {
 	repo = r;
 }
 
 Service::~Service() {
 }
 
-void Service::setRepo(const Repository& r) {
+void Service::setRepo(const RepoFile& r) {
 	repo = r;
 }
 
@@ -20,6 +20,7 @@ void Service::addCarService(Car& p) {
 }
 
 int Service::deleteCarService(Car& p) {
+	if (strcmp(p.getStatus(), "taken") == 0) return 2;
 	return repo.delCar(p);
 }
 

@@ -1,10 +1,11 @@
 #include "UI.h"
-
 #include <iostream>
 using namespace std;
 
 void printMenu() {
 	cout << "OPTIONS" << endl;
+	cout << "11. Give the number of parking spaces" << endl;
+	cout << "22. Number of parking spaces" << endl;
 	cout << "1. Add car" << endl;
 	cout << "2. Delete car" << endl;
 	cout << "3. Update car" << endl;
@@ -13,7 +14,7 @@ void printMenu() {
 	cout << "0. Exit" << endl;
 }
 
-void addUI(Service& serv) {
+int addUI(Service& serv) {
 	Car car;
 	cout << "Give a car:" << endl;
 	cin >> car;
@@ -36,16 +37,23 @@ void addUI(Service& serv) {
 	if (k == 1) {
 		serv.addCarService(car);
 		cout << "The car was added succesfully" << endl;
+		if (strcmp(car.getStatus(), "taken") == 0) k = 2;
 	}
 	else cout << "Try again" << endl;
+	return k;
 }
 
-void deleteUI(Service& serv) {
+int deleteUI(Service& serv) {
 	cout << "Give the car to delete:" << endl;
 	Car car;
 	cin >> car;
-	if (serv.deleteCarService(car) == 0) cout << "The car was deleted successfully!" << endl;
-	else cout << "Delete failed" << endl;
+	int i = serv.deleteCarService(car);
+	if (i == 0) {
+		cout << "The car was deleted successfully!" << endl; return 1;
+	}
+	else if (i == 2)cout << "You can't delete this car!";
+		else cout << "Delete failed" << endl;
+	return 0;
 }
 
 void updateUI(Service& serv) {
@@ -104,14 +112,28 @@ void findUI(Service& serv) {
 
 void showUI(Service& serv) {
 	int op;
+	int X = serv.dimCar(), parked = 0, left = 1;
+	list <Car> carsServ;
+	list <Car>::iterator it;
+	carsServ = serv.getAllCar();
+	for (it = carsServ.begin(); it != carsServ.end(); it++)
+		if (strcmp((*it).getStatus(), "taken") == 0) parked++;
+	left = X - parked;
 	bool val = true;
 	while (val) {
 		printMenu();
 		cout << "Choose operation:";
 		cin >> op;
 		switch (op) {
-		case 1: {addUI(serv); break; }
-		case 2: {deleteUI(serv); break; }
+		case 11: { cout << "X="; cin >> X; left = X;  break;  }
+		case 22: { cout << "TOTAL=" << X << endl << "FREE=" << left << endl << "TAKEN=" << parked << endl; break; }
+		case 1: {if (parked == X) cout << "The parking is full!" << endl;
+			  else {
+			if (addUI(serv) == 2) { parked++; left--;
+			}
+		}
+			  break; }
+		case 2: {if (deleteUI(serv) == 1) parked--; left++; break; }
 		case 3: {updateUI(serv); break; }
 		case 4: {getAllUI(serv); break; }
 		case 5: {findUI(serv); break; }

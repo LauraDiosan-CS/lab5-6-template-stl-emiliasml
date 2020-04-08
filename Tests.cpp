@@ -88,7 +88,7 @@ void testService() {
 	assert(serv.dimCar() == 2);
 	//delete
 	assert(serv.deleteCarService(c1) == 0);
-	assert(serv.deleteCarService(c3) == -1);
+	assert(serv.deleteCarService(c3) == 2);
 	//find
 	assert(serv.findCarService(c1) == -1);
 	assert(serv.findCarService(c2) == 0);

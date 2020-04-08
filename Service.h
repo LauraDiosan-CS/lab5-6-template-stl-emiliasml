@@ -1,14 +1,14 @@
 #pragma once
-#include "Repository.h"
+#include "RepoFile.h"
 #include "Car.h"
 
 class Service {
 private:
-	Repository repo;
+	RepoFile repo;
 public:
 	Service();
-	Service(const Repository&);
-	void setRepo(const Repository&);
+	Service(const RepoFile&);
+	void setRepo(const RepoFile&);
 	void addCarService(Car&);
 	int deleteCarService(Car&);
 	int findCarService(Car);
