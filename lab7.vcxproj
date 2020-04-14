@@ -151,6 +151,7 @@
     <ClCompile Include="lab7.cpp" />
     <ClCompile Include="RepoFile.cpp" />
     <ClCompile Include="Repository.cpp" />
+    <ClCompile Include="RepoTemplate.cpp" />
     <ClCompile Include="Service.cpp" />
     <ClCompile Include="Tests.cpp" />
     <ClCompile Include="UI.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="Car.h" />
     <ClInclude Include="RepoFile.h" />
     <ClInclude Include="Repository.h" />
+    <ClInclude Include="RepoTemplate.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Service.h" />
     <ClInclude Include="Tests.h" />
@@ -166,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Cars.txt" />
+    <Text Include="Tests.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

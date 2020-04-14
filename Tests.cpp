@@ -1,6 +1,7 @@
 #include<iostream>
 #include "Tests.h"
 #include "Car.h"
+#include "RepoFile.h"
 #include "Repository.h"
 #include "Service.h"
 #include"assert.h"
@@ -30,7 +31,6 @@ void testCar() {
 	assert(strcmp(c1.getNr(), "B00III") == 0);
 	assert(strcmp(c1.getStatus(), "taken") == 0);
 }
-
 
 void testRepository()
 {
@@ -82,20 +82,21 @@ void testService() {
 	Car c22("a", "b", "c");
 	//dim and add
 	assert(serv.dimCar() == 0);
-	serv.addCarService(c1);
+	assert(serv.addCarService(c1) == 1);
 	assert(serv.dimCar() == 1);
-	serv.addCarService(c2);
+	assert(serv.addCarService(c2) == 1);
 	assert(serv.dimCar() == 2);
 	//delete
-	assert(serv.deleteCarService(c1) == 0);
-	assert(serv.deleteCarService(c3) == 2);
+	serv.deleteCarService(c1);
+	assert(serv.dimCar() == 1);
 	//find
 	assert(serv.findCarService(c1) == -1);
-	assert(serv.findCarService(c2) == 0);
+	assert(serv.findCarService(c2) == 1);
 	assert(serv.findCarService(c3) == -1);
-	//update
-	assert(serv.updateCarService(c3, "a", "b", "c") == -1);
-	assert(serv.updateCarService(c2, "a", "b", "c") == 0);
+	////update
+	serv.updateCarService(c2, "a", "b", "c");
+	assert(serv.findCarService(c2) == -1);
+	assert(serv.findCarService(c22) == 1);
 
 	serv.addCarService(c1); serv.addCarService(c2); serv.addCarService(c3);
 	//get all
@@ -109,8 +110,62 @@ void testService() {
 
 }
 
+void testRepoFile() {
+	RepoFile repo;
+	Car c("Joe", "10HD00", "taken");
+	Car cc("Iona", "100", "taken");
+	Car ccc("Ioana", "200", "free");
+	//dim
+	assert(repo.dim() == 0);
+	//load from file
+	repo.loadFromFile("Tests.txt");
+	assert(repo.dim() == 2);
+	//get all
+	list <Car> rez = repo.getAll();
+	assert(rez.size() == 2);
+	//add 
+	assert(repo.addCar(c) == 1);
+	//save to file
+	repo.saveToFile();
+	assert(repo.dim() == 3);
+	//delete
+	assert(repo.delCar(c) == 0);
+	assert(repo.dim() == 2);
+	//update 
+	repo.updateCar(cc, "Ioana", "200", "free");
+	assert(repo.delCar(ccc) == 0);
+	assert(repo.addCar(cc) == 1);
+}
+
+void testRepoTemplate() {
+	Car c1("Bob", "B10BOB", "free");
+	Car c2("Jane", "HD37PPP", "free");
+	Car c3("Marley", "CJ00XXX", "taken");
+	Car c("John", "XX00VVV", "free");
+	RepoTemplate <Car> repo;
+	//size and add
+	assert(repo.size() == 0);
+	repo.add(c1);
+	assert(repo.size() == 1);
+	repo.add(c2);
+	repo.add(c3);
+	assert(repo.size() == 3);
+	//find
+	assert(repo.findEl(c1) == 1);
+	//delete
+	repo.removee(c1);
+	assert(repo.size() == 2);
+	assert(repo.findEl(c1) == -1);
+	//update
+	assert(repo.findEl(c) == -1);
+	repo.update(c2, c);
+	assert(repo.findEl(c) != -1);
+}
+
 void runTests() {
 	testCar();
 	testRepository();
 	testService();
+	testRepoFile();
+	testRepoTemplate();
 }

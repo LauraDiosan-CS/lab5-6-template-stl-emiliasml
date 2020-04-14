@@ -6,7 +6,6 @@ Repository::Repository()
 
 void Repository::addCar(Car car)
 {
-	
 	repo.push_back(car);
 }
 
